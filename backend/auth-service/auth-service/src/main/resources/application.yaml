@@ -1,0 +1,53 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: auth-service
+
+  profiles:
+    active: dev
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/auth_db
+    username: postgres
+    password: TU_PASSWORD_POSTGRES
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+    register-with-eureka: true
+    fetch-registry: true
+  instance:
+    prefer-ip-address: true
+
+jwt:
+  secret: ${JWT_SECRET:Y2FtYmlhRXN0YUNsYXZlRW5Qcm9kdWNjaW9uUG9yVW5hU2VndXJhMTIzNDU2Nzg5}
+  expiration: ${JWT_EXPIRATION:86400000}
+
+---
+spring:
+  config:
+    activate:
+      on-profile: docker
+
+  datasource:
+    url: jdbc:postgresql://postgres:5432/auth_db
+    username: ${DB_USER:postgres}
+    password: ${DB_PASSWORD:postgres}
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka-server:8761/eureka/

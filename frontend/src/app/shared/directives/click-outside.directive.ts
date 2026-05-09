@@ -1,0 +1,1 @@
+﻿export const CLICK_OUTSIDE_DIRECTIVE_PLACEHOLDER = true;

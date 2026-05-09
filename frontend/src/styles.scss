@@ -1,0 +1,28 @@
+// ============================================
+// 🎨 DMAN SYSTEMS - ESTILOS GLOBALES
+// ============================================
+
+// 1. Sistema de estilos propio (primero los @use)
+@use 'styles/themes' as *;      // 1ro: Variables CSS de temas
+@use 'styles/base' as *;        // 2do: Reset, tipografía
+@use 'styles/layout' as *;      // 3ro: Containers
+@use 'styles/components' as *;  // 4to: Componentes globales
+@use 'styles/utilities' as *;   // 5to: Utilities
+
+// 2. Fuentes externas
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+// 3. AOS animations
+@import 'aos/dist/aos.css';
+
+// 4. Tailwind directives
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+::view-transition-group(*),
+::view-transition-old(*),
+::view-transition-new(*) {
+	animation-duration: 0.25s;
+	animation-timing-function: cubic-bezier(0.19, 1, 0.22, 1);
+}

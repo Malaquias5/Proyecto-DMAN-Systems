@@ -1,0 +1,45 @@
+# ===== Java / Maven =====
+*.class
+target/
+*.jar
+*.war
+.classpath
+.project
+.settings/
+.mvn/wrapper/maven-wrapper.jar
+HELP.md
+
+# ===== IDE =====
+.idea/
+.vscode/
+*.iml
+*.swp
+
+# ===== Node / Angular =====
+node_modules/
+dist/
+.angular/
+npm-debug.log*
+
+# ===== Build outputs =====
+build/
+
+# ===== System =====
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ===== Secretos =====
+.env
+.env.local
+*.pem
+*.key
+
+# ===== Logs =====
+logs/
+*.log
+
+# ===== Temporales =====
+test.jpg
+fix-hero.ps1
+setup.ps1

@@ -1,0 +1,52 @@
+<section class="py-24">
+  <div class="container-custom">
+
+    <!-- Header -->
+    <div class="text-center max-w-2xl mx-auto mb-16">
+      <span class="inline-block text-xs font-semibold uppercase tracking-[0.2em] text-brand-500 mb-3">
+        Trayectoria
+      </span>
+      <h2 class="text-3xl md:text-4xl font-bold tracking-tight mb-4 text-zinc-900 dark:text-zinc-100">
+        Números que
+        <span class="text-brand-500">respaldan</span>
+        nuestro trabajo
+      </h2>
+      <p class="text-zinc-600 dark:text-zinc-400 leading-relaxed">
+        Cada cifra representa horas de dedicación y clientes satisfechos.
+      </p>
+    </div>
+
+    <!-- Grid de stats -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      @for (stat of stats; track stat.label; let i = $index) {
+        <div class="relative group">
+          <!-- Glow al hover -->
+          <div class="absolute -inset-px bg-gradient-to-br from-brand-500/20 to-purple-500/20 rounded-2xl opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-500"></div>
+
+          <div class="relative bg-white dark:bg-zinc-900/50 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-6 hover:border-brand-500/30 transition-all duration-300">
+
+            <div class="w-10 h-10 rounded-lg bg-brand-500/10 flex items-center justify-center mb-4">
+              <lucide-icon
+                [img]="stat.icon"
+                class="w-5 h-5 text-brand-500"
+              ></lucide-icon>
+            </div>
+
+            <div class="text-4xl font-extrabold text-zinc-900 dark:text-zinc-100 mb-1 tracking-tight">
+              {{ stat.value }}
+            </div>
+
+            <div class="text-sm font-semibold text-zinc-700 dark:text-zinc-300 mb-1">
+              {{ stat.label }}
+            </div>
+
+            <div class="text-xs text-zinc-500 dark:text-zinc-500">
+              {{ stat.description }}
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+
+  </div>
+</section>

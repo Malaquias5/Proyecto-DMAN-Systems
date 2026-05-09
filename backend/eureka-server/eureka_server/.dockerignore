@@ -1,0 +1,13 @@
+../target/
+eureka_server/.idea/
+.vscode/
+*.iml
+*.iws
+*.ipr
+.git/
+.gitignore
+README.md
+HELP.md
+eureka_server/.mvn/
+mvnw
+mvnw.cmd

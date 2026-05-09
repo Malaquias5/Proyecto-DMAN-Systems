@@ -1,0 +1,145 @@
+<div class="bg-white dark:bg-zinc-900/50 border border-zinc-200 dark:border-zinc-800 rounded-2xl">
+
+  <!-- Header -->
+  <div class="flex items-center justify-between p-5 border-b border-zinc-200 dark:border-zinc-800">
+    <div class="flex items-center gap-2">
+      <div class="w-8 h-8 rounded-lg bg-brand-500/10 flex items-center justify-center">
+        <lucide-icon [img]="MessageSquare" class="w-4 h-4 text-brand-500"></lucide-icon>
+      </div>
+      <h3 class="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+        Mensajes recientes
+      </h3>
+    </div>
+    <a
+      routerLink="/admin/mensajes"
+      class="inline-flex items-center gap-1 text-xs font-medium text-brand-500 hover:text-brand-600 transition-colors"
+    >
+      Ver todos
+      <lucide-icon [img]="ArrowRight" class="w-3.5 h-3.5"></lucide-icon>
+    </a>
+  </div>
+
+  <!-- Loading -->
+  @if (loading()) {
+    <div class="flex flex-col items-center justify-center py-16">
+      <app-spinner size="md" />
+      <p class="text-xs text-zinc-500 mt-3">Cargando mensajes...</p>
+    </div>
+
+  <!-- Error -->
+  } @else if (errored()) {
+    <app-empty-state
+      title="No pudimos cargar los mensajes"
+      description="Verifica la conexión con el servidor."
+    >
+      <app-button variant="primary" size="sm" (clicked)="loadMessages()">
+        Reintentar
+      </app-button>
+    </app-empty-state>
+
+  <!-- Vacío -->
+  } @else if (recentMessages().length === 0) {
+    <app-empty-state
+      title="No hay mensajes aún"
+      description="Cuando lleguen mensajes del formulario de contacto, aparecerán aquí."
+      [icon]="MessageSquare"
+    />
+
+  <!-- Lista -->
+  } @else {
+    <div class="divide-y divide-zinc-100 dark:divide-zinc-800">
+      @for (message of recentMessages(); track message.id) {
+        <div class="group p-4 hover:bg-zinc-50 dark:hover:bg-zinc-900/50 transition-colors">
+          <div class="flex items-start gap-3">
+
+            <!-- Avatar -->
+            <div [class]="'w-10 h-10 rounded-full flex items-center justify-center text-white text-xs font-semibold flex-shrink-0 ' + getAvatarColor(message.nombre)">
+              {{ message.nombre | initials }}
+            </div>
+
+            <div class="flex-1 min-w-0">
+              <!-- Fila nombre + tiempo + badge -->
+              <div class="flex items-start justify-between gap-2 mb-1">
+                <div class="min-w-0 flex-1">
+                  <h4 class="text-sm font-semibold text-zinc-900 dark:text-zinc-100 truncate">
+                    {{ message.nombre }}
+                  </h4>
+                  @if (message.email || message.telefono) {
+                    <div class="flex items-center gap-3 mt-0.5 flex-wrap">
+                      @if (message.email) {
+                        <span class="inline-flex items-center gap-1 text-xs text-zinc-500 truncate max-w-[160px]">
+                          <lucide-icon [img]="Mail" class="w-3 h-3 flex-shrink-0"></lucide-icon>
+                          <span class="truncate">{{ message.email }}</span>
+                        </span>
+                      }
+                      @if (message.telefono) {
+                        <span class="inline-flex items-center gap-1 text-xs text-zinc-500">
+                          <lucide-icon [img]="Phone" class="w-3 h-3 flex-shrink-0"></lucide-icon>
+                          {{ message.telefono }}
+                        </span>
+                      }
+                    </div>
+                  }
+                </div>
+
+                <div class="flex flex-col items-end gap-1.5 flex-shrink-0">
+                  <span class="text-xs text-zinc-500 whitespace-nowrap hidden sm:inline">
+                    {{ message.fechaEnvio | timeAgo }}
+                  </span>
+                  @if (message.estado === 'PENDIENTE') {
+                    <app-badge variant="warning" [dot]="true">Pendiente</app-badge>
+                  } @else {
+                    <app-badge variant="success" [dot]="true">Atendido</app-badge>
+                  }
+                </div>
+              </div>
+
+              <!-- Asunto -->
+              @if (message.asunto) {
+                <p class="text-xs font-medium text-zinc-700 dark:text-zinc-300 mb-1">
+                  {{ message.asunto }}
+                </p>
+              }
+
+              <!-- Mensaje -->
+              <p class="text-sm text-zinc-600 dark:text-zinc-400 line-clamp-2 leading-relaxed mb-2">
+                {{ message.mensaje }}
+              </p>
+
+              <!-- Acciones -->
+              <div class="flex items-center gap-2">
+                <a
+                  [routerLink]="['/admin/mensajes']"
+                  [queryParams]="{ id: message.id }"
+                  class="inline-flex items-center gap-1 px-2 py-1 rounded-md text-xs font-medium text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
+                >
+                  <lucide-icon [img]="Eye" class="w-3 h-3"></lucide-icon>
+                  Ver detalle
+                </a>
+
+                @if (message.estado === 'PENDIENTE') {
+                  <button
+                    type="button"
+                    (click)="markAsAttended(message, $event)"
+                    [disabled]="isUpdating(message.id)"
+                    class="inline-flex items-center gap-1 px-2 py-1 rounded-md text-xs font-medium text-green-600 dark:text-green-400 hover:bg-green-50 dark:hover:bg-green-500/10 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    @if (isUpdating(message.id)) {
+                      <app-spinner size="xs" />
+                      <span>Actualizando...</span>
+                    } @else {
+                      <lucide-icon [img]="Check" class="w-3 h-3"></lucide-icon>
+                      <span>Marcar atendido</span>
+                    }
+                  </button>
+                }
+              </div>
+
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  }
+
+</div>

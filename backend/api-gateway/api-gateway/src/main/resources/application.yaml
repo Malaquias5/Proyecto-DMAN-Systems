@@ -1,0 +1,105 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: api-gateway
+
+  profiles:
+    active: dev
+
+  cloud:
+    gateway:
+      server:
+        webflux:
+          discovery:
+            locator:
+              enabled: false
+              lower-case-service-id: true
+          routes:
+            - id: auth-service
+              uri: lb://auth-service
+              predicates:
+                - Path=/api/auth/**
+
+            - id: client-service
+              uri: lb://client-service
+              predicates:
+                - Path=/api/clientes/**
+
+            - id: service-catalog
+              uri: lb://service-catalog
+              predicates:
+                - Path=/api/servicios/**
+
+            - id: contact-service
+              uri: lb://contact-service
+              predicates:
+                - Path=/api/contacto/**
+
+            - id: admin-service
+              uri: lb://admin-service
+              predicates:
+                - Path=/api/admin/**
+
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowed-origin-patterns:
+              - "http://localhost"
+              - "http://localhost:*"
+              - "http://127.0.0.1:*"
+            allowed-methods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - OPTIONS
+              - PATCH
+            allowed-headers: "*"
+            allow-credentials: true
+            max-age: 3600
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+    register-with-eureka: true
+    fetch-registry: true
+  instance:
+    prefer-ip-address: true
+
+logging:
+  level:
+    org.springframework.cloud.gateway: INFO
+
+---
+spring:
+  config:
+    activate:
+      on-profile: docker
+
+  cloud:
+    gateway:
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowed-origin-patterns:
+              - "http://localhost"
+              - "http://localhost:*"
+              - "http://127.0.0.1:*"
+            allowed-methods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - OPTIONS
+              - PATCH
+            allowed-headers: "*"
+            allow-credentials: true
+            max-age: 3600
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka-server:8761/eureka/

@@ -1,0 +1,30 @@
+@use '../abstracts' as *;
+
+// ============================================
+// 🏷️ BADGES
+// ============================================
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: $space-1;
+  padding: $space-1 $space-3;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-medium;
+  border-radius: $radius-full;
+  white-space: nowrap;
+
+  &--brand   { background-color: rgba($brand-500, 0.1); color: $brand-500; }
+  &--success { background-color: rgb(var(--color-success) / 0.1); color: rgb(var(--color-success)); }
+  &--warning { background-color: rgb(var(--color-warning) / 0.1); color: rgb(var(--color-warning)); }
+  &--danger  { background-color: rgb(var(--color-danger) / 0.1); color: rgb(var(--color-danger)); }
+  &--neutral { background-color: rgb(var(--color-surface-overlay)); color: rgb(var(--color-content-secondary)); }
+
+  &--dot::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: currentColor;
+  }
+}

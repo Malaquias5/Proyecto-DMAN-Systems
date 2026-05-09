@@ -1,0 +1,162 @@
+<div class="bg-white dark:bg-zinc-900/50 border border-zinc-200 dark:border-zinc-800 rounded-2xl overflow-hidden">
+
+  <div class="overflow-x-auto">
+    <table class="w-full">
+      <thead class="bg-zinc-50/80 dark:bg-zinc-900/80 border-b border-zinc-200 dark:border-zinc-800">
+        <tr>
+          <th class="px-4 py-3 text-left text-[10px] font-bold uppercase tracking-wider text-zinc-500 dark:text-zinc-500">
+            Cliente
+          </th>
+          <th class="px-4 py-3 text-left text-[10px] font-bold uppercase tracking-wider text-zinc-500 dark:text-zinc-500 hidden md:table-cell">
+            Contacto
+          </th>
+          <th class="px-4 py-3 text-left text-[10px] font-bold uppercase tracking-wider text-zinc-500 dark:text-zinc-500 hidden lg:table-cell">
+            Servicio
+          </th>
+          <th class="px-4 py-3 text-left text-[10px] font-bold uppercase tracking-wider text-zinc-500 dark:text-zinc-500 hidden md:table-cell">
+            Registrado
+          </th>
+          <th class="px-4 py-3 text-right text-[10px] font-bold uppercase tracking-wider text-zinc-500 dark:text-zinc-500">
+            Acciones
+          </th>
+        </tr>
+      </thead>
+
+      <tbody class="divide-y divide-zinc-100 dark:divide-zinc-800">
+        @for (client of paginatedClients(); track client.id) {
+          <tr
+            class="hover:bg-zinc-50 dark:hover:bg-zinc-900/50 transition-colors cursor-pointer"
+            (click)="onView(client)"
+            (keydown.enter)="onView(client)"
+            tabindex="0"
+          >
+
+            <td class="px-4 py-3">
+              <div class="flex items-center gap-3">
+                <div [class]="'w-9 h-9 rounded-full flex items-center justify-center text-white text-xs font-semibold flex-shrink-0 ' + getAvatarColor(client.nombre)">
+                  {{ client.nombre | initials }}
+                </div>
+                <div class="min-w-0">
+                  <p class="text-sm font-semibold text-zinc-900 dark:text-zinc-100 truncate">
+                    {{ client.nombre }}
+                  </p>
+                  <p class="text-xs text-zinc-500 dark:text-zinc-500 truncate md:hidden">
+                    {{ client.telefono }}
+                  </p>
+                </div>
+              </div>
+            </td>
+
+            <td class="px-4 py-3 hidden md:table-cell">
+              <div class="flex flex-col gap-0.5">
+                @if (client.email) {
+                  <span class="inline-flex items-center gap-1.5 text-xs text-zinc-700 dark:text-zinc-300">
+                    <lucide-icon [img]="Mail" class="w-3 h-3 text-zinc-400 flex-shrink-0"></lucide-icon>
+                    <span class="truncate max-w-[200px]">{{ client.email }}</span>
+                  </span>
+                }
+                <span class="inline-flex items-center gap-1.5 text-xs text-zinc-500 dark:text-zinc-500">
+                  <lucide-icon [img]="Phone" class="w-3 h-3 text-zinc-400 flex-shrink-0"></lucide-icon>
+                  {{ client.telefono }}
+                </span>
+              </div>
+            </td>
+
+            <td class="px-4 py-3 hidden lg:table-cell">
+              @if (getServiceBadge(client.servicio); as badge) {
+                <span [class]="'inline-flex items-center gap-1.5 px-2 py-1 rounded-md text-xs font-medium ' + badge.color + ' ' + badge.bg">
+                  <lucide-icon [img]="badge.icon" class="w-3 h-3"></lucide-icon>
+                  {{ badge.label }}
+                </span>
+              } @else {
+                <span class="text-xs text-zinc-400 dark:text-zinc-600">—</span>
+              }
+            </td>
+
+            <td class="px-4 py-3 hidden md:table-cell">
+              <div class="flex flex-col">
+                <span class="text-xs font-medium text-zinc-700 dark:text-zinc-300">
+                  {{ client.fechaRegistro | timeAgo }}
+                </span>
+                <span class="text-[10px] text-zinc-400 dark:text-zinc-600">
+                  {{ client.fechaRegistro | formatDate:'short' }}
+                </span>
+              </div>
+            </td>
+
+            <td class="px-4 py-3">
+              <div class="flex items-center justify-end gap-1">
+                <button
+                  type="button"
+                  (click)="onView(client); $event.stopPropagation()"
+                  class="p-1.5 rounded-md text-zinc-500 hover:text-brand-500 hover:bg-brand-500/10 transition-colors"
+                  aria-label="Ver detalle"
+                  title="Ver detalle"
+                >
+                  <lucide-icon [img]="Eye" class="w-4 h-4"></lucide-icon>
+                </button>
+
+                <button
+                  type="button"
+                  (click)="onDelete(client, $event)"
+                  class="p-1.5 rounded-md text-zinc-500 hover:text-red-500 hover:bg-red-500/10 transition-colors"
+                  aria-label="Eliminar"
+                  title="Eliminar"
+                >
+                  <lucide-icon [img]="Trash2" class="w-4 h-4"></lucide-icon>
+                </button>
+              </div>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+  @if (totalPages() > 1) {
+    <div class="px-4 py-3 border-t border-zinc-200 dark:border-zinc-800 flex flex-col sm:flex-row items-center justify-between gap-3">
+
+      <p class="text-xs text-zinc-500 dark:text-zinc-500">
+        Mostrando <span class="font-semibold text-zinc-700 dark:text-zinc-300">{{ rangeText() }}</span>
+      </p>
+
+      <div class="flex items-center gap-1">
+        <button
+          type="button"
+          (click)="prevPage()"
+          [disabled]="currentPage() === 1"
+          class="w-8 h-8 rounded-lg flex items-center justify-center bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100 hover:border-zinc-300 dark:hover:border-zinc-700 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+          aria-label="Página anterior"
+        >
+          <lucide-icon [img]="ChevronLeft" class="w-4 h-4"></lucide-icon>
+        </button>
+
+        @for (page of pageNumbers(); track $index) {
+          @if (page === '...') {
+            <span class="px-2 text-zinc-400 text-xs">...</span>
+          } @else {
+            <button
+              type="button"
+              (click)="goToPage(page)"
+              [class]="currentPage() === page
+                ? 'w-8 h-8 rounded-lg flex items-center justify-center bg-brand-500 text-white text-xs font-semibold'
+                : 'w-8 h-8 rounded-lg flex items-center justify-center bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-zinc-700 dark:text-zinc-300 hover:border-zinc-300 dark:hover:border-zinc-700 text-xs font-medium transition-all'"
+            >
+              {{ page }}
+            </button>
+          }
+        }
+
+        <button
+          type="button"
+          (click)="nextPage()"
+          [disabled]="currentPage() === totalPages()"
+          class="w-8 h-8 rounded-lg flex items-center justify-center bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100 hover:border-zinc-300 dark:hover:border-zinc-700 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+          aria-label="Página siguiente"
+        >
+          <lucide-icon [img]="ChevronRight" class="w-4 h-4"></lucide-icon>
+        </button>
+      </div>
+    </div>
+  }
+</div>

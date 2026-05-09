@@ -1,0 +1,12 @@
+@use '../abstracts' as *;
+
+// ============================================
+// 📜 SCROLLBAR PERSONALIZADO
+// ============================================
+
+html { @include custom-scrollbar(8px); }
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(var(--color-border-strong)) rgb(var(--color-surface-base));
+}

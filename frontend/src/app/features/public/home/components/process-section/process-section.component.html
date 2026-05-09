@@ -1,0 +1,59 @@
+<section class="py-24 bg-zinc-50/50 dark:bg-zinc-900/30" id="proceso">
+  <div class="container-custom">
+
+    <!-- Header -->
+    <div class="text-center max-w-2xl mx-auto mb-16">
+      <span class="inline-block text-xs font-semibold uppercase tracking-[0.2em] text-brand-500 mb-3">
+        Proceso
+      </span>
+      <h2 class="text-3xl md:text-4xl font-bold tracking-tight mb-4 text-zinc-900 dark:text-zinc-100">
+        ¿Cómo trabajamos?
+      </h2>
+      <p class="text-zinc-600 dark:text-zinc-400 leading-relaxed">
+        Un proceso simple, transparente y enfocado en resultados.
+      </p>
+    </div>
+
+    <div class="max-w-3xl mx-auto relative">
+
+      <!-- Línea vertical del timeline -->
+      <div
+        class="absolute left-6 top-12 bottom-12 w-0.5 hidden sm:block"
+        style="background: linear-gradient(180deg, #3B82F6 0%, rgba(59,130,246,0.1) 100%);"
+        aria-hidden="true"
+      ></div>
+
+      <div class="space-y-4">
+        @for (step of steps; track step.number; let i = $index) {
+          <div class="flex gap-4 items-start">
+
+            <!-- Número del paso -->
+            <div class="flex-shrink-0 relative z-10">
+              @if (step.isHighlighted) {
+                <div class="w-12 h-12 rounded-xl bg-brand-500 text-white flex items-center justify-center font-bold text-lg shadow-lg shadow-brand-500/40">
+                  {{ step.number }}
+                </div>
+              } @else {
+                <div class="w-12 h-12 rounded-xl bg-white dark:bg-zinc-900 border-2 border-brand-500 text-brand-500 flex items-center justify-center font-bold text-lg">
+                  {{ step.number }}
+                </div>
+              }
+            </div>
+
+            <!-- Contenido -->
+            <div class="flex-1 bg-white dark:bg-zinc-900/50 border border-zinc-200 dark:border-zinc-800 rounded-xl p-5 hover:border-zinc-300 dark:hover:border-zinc-700 transition-colors">
+              <h3 class="text-lg font-semibold text-zinc-900 dark:text-zinc-100 mb-1.5">
+                {{ step.title }}
+              </h3>
+              <p class="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
+                {{ step.description }}
+              </p>
+            </div>
+
+          </div>
+        }
+      </div>
+    </div>
+
+  </div>
+</section>

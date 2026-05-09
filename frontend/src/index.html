@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>DMAN Systems - Soluciones Tecnológicas</title>
+  <base href="/">
+
+  <!-- Viewport -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+
+  <!-- SEO -->
+  <meta name="description" content="DMAN Systems: páginas web, aplicaciones móviles, sistemas de ventas y bots a medida. Soluciones tecnológicas profesionales en Perú.">
+  <meta name="keywords" content="desarrollo web, aplicaciones móviles, sistemas de ventas, bots, Perú, Lima">
+  <meta name="author" content="DMAN Systems">
+  <meta name="theme-color" content="#3b82f6">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="DMAN Systems - Soluciones Tecnológicas">
+  <meta property="og:description" content="Construimos productos digitales que escalan">
+  <meta property="og:image" content="/og-image.png">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+
+  <!-- Preconnect fuentes -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <!-- Prevenir flash de tema incorrecto -->
+  <script>
+    (function() {
+      var stored = localStorage.getItem('dman_theme');
+      var prefersDark = globalThis.matchMedia('(prefers-color-scheme: dark)').matches;
+      var theme = stored || (prefersDark ? 'dark' : 'light');
+      document.documentElement.classList.add(theme);
+    })();
+  </script>
+</head>
+<body>
+  <app-root>
+    <div style="display:flex;align-items:center;justify-content:center;min-height:100vh;font-family:'Plus Jakarta Sans','Segoe UI',system-ui,sans-serif;">
+      <div style="text-align:center;">
+        <div style="width:48px;height:48px;border:3px solid rgba(59,130,246,0.2);border-top-color:#3b82f6;border-radius:50%;margin:0 auto 16px;animation:spin 1s linear infinite;"></div>
+        <p style="color:#71717a;font-size:14px;">Cargando DMAN Systems...</p>
+      </div>
+    </div>
+    <style>@keyframes spin{to{transform:rotate(360deg)}}</style>
+  </app-root>
+</body>
+</html>

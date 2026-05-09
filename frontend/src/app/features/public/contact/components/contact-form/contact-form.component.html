@@ -1,0 +1,121 @@
+<div class="bg-white dark:bg-zinc-900/50 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-6 md:p-8">
+
+  @if (submitted()) {
+
+    <div class="text-center py-8 animate-fade-in">
+      <div class="w-16 h-16 mx-auto mb-5 rounded-2xl bg-green-100 dark:bg-green-500/10 flex items-center justify-center">
+        <lucide-icon [img]="CheckCircle2" class="w-8 h-8 text-green-500"></lucide-icon>
+      </div>
+
+      <h3 class="text-2xl font-bold text-zinc-900 dark:text-zinc-100 mb-2">
+        ¡Mensaje enviado!
+      </h3>
+
+      <p class="text-zinc-600 dark:text-zinc-400 max-w-sm mx-auto leading-relaxed mb-6">
+        Recibimos tu mensaje correctamente. Te responderemos en
+        <strong class="text-brand-500">menos de 24 horas</strong> al email
+        que nos compartiste.
+      </p>
+
+      <app-button variant="secondary" (clicked)="resetSubmitted()">
+        Enviar otro mensaje
+      </app-button>
+    </div>
+
+  } @else {
+
+    <div class="mb-6">
+      <h2 class="text-xl font-bold text-zinc-900 dark:text-zinc-100 mb-1">
+        Cuéntanos sobre tu proyecto
+      </h2>
+      <p class="text-sm text-zinc-500 dark:text-zinc-400">
+        Completa el formulario y te contactaremos pronto
+      </p>
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-4">
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <app-input
+          label="Nombre completo"
+          placeholder="Tu nombre"
+          formControlName="nombre"
+          [required]="true"
+          [iconLeft]="UserIcon"
+          autocomplete="name"
+          [errorMsg]="getError('nombre')"
+        />
+
+        <app-input
+          label="Teléfono"
+          type="tel"
+          placeholder="987 654 321"
+          formControlName="telefono"
+          [iconLeft]="Phone"
+          autocomplete="tel"
+          hint="Opcional"
+          [errorMsg]="getError('telefono')"
+        />
+      </div>
+
+      <app-input
+        label="Email"
+        type="email"
+        placeholder="tu@email.com"
+        formControlName="email"
+        [required]="true"
+        [iconLeft]="Mail"
+        autocomplete="email"
+        [errorMsg]="getError('email')"
+      />
+
+      <app-select
+        label="Servicio de interés"
+        placeholder="Selecciona un servicio"
+        formControlName="servicio"
+        [options]="serviceOptions"
+      />
+
+      <app-input
+        label="Asunto"
+        placeholder="Cotización, consulta, etc."
+        formControlName="asunto"
+        hint="Opcional"
+      />
+
+      <app-textarea
+        label="Mensaje"
+        placeholder="Cuéntanos sobre tu proyecto, necesidades, presupuesto estimado..."
+        formControlName="mensaje"
+        [required]="true"
+        [rows]="5"
+        [maxLength]="500"
+        [errorMsg]="getError('mensaje')"
+      />
+
+      <div class="pt-2">
+        <app-button
+          type="submit"
+          variant="primary"
+          size="lg"
+          [iconRight]="Send"
+          [fullWidth]="true"
+          [loading]="loading()"
+          [disabled]="loading()"
+        >
+          @if (loading()) {
+            Enviando mensaje...
+          } @else {
+            Enviar mensaje
+          }
+        </app-button>
+      </div>
+
+      <p class="text-xs text-zinc-500 dark:text-zinc-500 text-center pt-2">
+        Al enviar este formulario aceptas que nos contactemos contigo por
+        email o teléfono. No compartimos tus datos con terceros.
+      </p>
+    </form>
+  }
+
+</div>

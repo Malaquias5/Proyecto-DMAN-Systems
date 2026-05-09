@@ -1,0 +1,33 @@
+@use '../abstracts' as *;
+
+// ============================================
+// 📋 FORMULARIOS
+// ============================================
+
+.form-group  { display: flex; flex-direction: column; gap: $space-2; margin-bottom: $space-4; }
+.form-label  { font-size: $font-size-sm; font-weight: $font-weight-medium; color: rgb(var(--color-content-primary)); }
+.form-label--required::after { content: ' *'; color: rgb(var(--color-danger)); }
+
+.form-input,
+.form-textarea,
+.form-select {
+  width: 100%;
+  padding: $space-3 $space-4;
+  font-size: $font-size-sm;
+  font-family: $font-sans;
+  color: rgb(var(--color-content-primary));
+  background-color: rgb(var(--color-surface-base));
+  border: 1px solid rgb(var(--color-border-base));
+  border-radius: $radius-lg;
+  transition: all $transition-base;
+
+  &::placeholder { color: rgb(var(--color-content-tertiary)); }
+  &:hover:not(:disabled) { border-color: rgb(var(--color-border-strong)); }
+  &:focus { outline: none; border-color: $brand-500; box-shadow: 0 0 0 3px rgba($brand-500, 0.1); }
+  &:disabled { opacity: 0.5; cursor: not-allowed; }
+  &--error { border-color: rgb(var(--color-danger)); }
+}
+
+.form-textarea { min-height: 100px; resize: vertical; }
+.form-error    { font-size: $font-size-xs; color: rgb(var(--color-danger)); margin-top: $space-1; }
+.form-hint     { font-size: $font-size-xs; color: rgb(var(--color-content-tertiary)); margin-top: $space-1; }
